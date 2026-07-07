@@ -1,0 +1,27 @@
+tolerance 2.0
+filetype xyz
+output electrolyte.xyz
+
+# Simulation box (Å)
+# Box size: 0 0 0 to 60 60 60
+
+structure EC.xyz
+  number 100
+  inside box 0. 0. 0. 60. 60. 60.
+end structure
+
+structure DMC.xyz
+  number 100
+  inside box 0. 0. 0. 60. 60. 60.
+end structure
+
+structure DEC.xyz
+  number 100
+  inside box 0. 0. 0. 60. 60. 60.
+end structure
+
+structure LiPF6.xyz
+  number 20
+  inside box 0. 0. 0. 60. 60. 60.
+end structure
+

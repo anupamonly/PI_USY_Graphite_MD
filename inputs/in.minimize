@@ -1,55 +1,22 @@
-# ==========================================================
-# PI_USY_Graphite_MD
-# Energy Minimization
-# LAMMPS 10 Dec 2025
-# ==========================================================
+units metal
+dimension 3
+boundary p p p
 
-units           real
-dimension       3
-boundary        p p p
-atom_style      full
+atom_style atomic
 
-# ---------- System ----------
+read_data data/graphite_fixed.data
+mass 1 12.011
+pair_style airebo 3.0
+pair_coeff * * /usr/share/lammps/potentials/CH.airebo C
 
-read_data       data/system.data
+neighbor 2.0 bin
+neigh_modify delay 5
 
-# ---------- Force Fields ----------
-# (These will be expanded as we add CVFF, ClayFF, OPLS-AA, etc.)
+thermo 100
 
-pair_style      lj/cut/coul/long 12.0
-bond_style      harmonic
-angle_style     harmonic
-dihedral_style  opls
-improper_style  cvff
+reset_timestep 0
 
-special_bonds   lj/coul 0.0 0.0 0.5
+min_style cg
+minimize 1e-10 1e-10 10000 100000
 
-kspace_style    pppm 1.0e-4
-
-# ---------- Neighbor ----------
-
-neighbor        2.0 bin
-neigh_modify    every 1 delay 0 check yes
-
-# ---------- Thermo ----------
-
-thermo          100
-
-thermo_style custom \
-step temp pe ke etotal press density
-
-# ---------- Dump ----------
-
-dump            traj all custom 1000 \
-outputs/minimize.lammpstrj \
-id type q x y z
-
-# ---------- Minimization ----------
-
-min_style       cg
-
-minimize        1.0e-6 1.0e-8 5000 100000
-
-write_data      data/minimized.data
-
-print "Energy minimization completed."
+write_data outputs/graphite_minimized.data

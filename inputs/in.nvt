@@ -1,0 +1,32 @@
+units metal
+dimension 3
+boundary p p p
+
+atom_style atomic
+
+read_data outputs/graphite_minimized.data
+
+mass 1 12.011
+
+pair_style airebo 3.0
+pair_coeff * * /usr/share/lammps/potentials/CH.airebo C
+
+neighbor 2.0 bin
+neigh_modify delay 5
+
+velocity all create 300.0 12345 mom yes rot yes dist gaussian
+
+fix 1 all nvt temp 300.0 300.0 0.1
+
+thermo 100
+thermo_style custom step temp pe ke etotal press
+
+dump 1 all custom 100 outputs/nvt.lammpstrj id type x y z
+
+timestep 0.001
+
+run 10000
+
+unfix 1
+
+write_data outputs/graphite_nvt.data
