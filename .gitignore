@@ -1,0 +1,17 @@
+venv/
+lammps/
+moltemplate/
+
+*.zip
+*.lammpstrj
+*.restart
+*.dump
+*.log
+
+__pycache__/
+*.pyc
+
+outputs/
+
+*.png
+*.pdf
